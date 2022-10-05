@@ -110,16 +110,9 @@ const touch = {
   prev: { x: 0, y: 0 },
 }
 
-const divX = document.querySelector('.x')
-const divY = document.querySelector('.y')
-
-divX.innerText = 'test'
-divY.innerText = 'test'
 
 addEventListener('touchstart', e => {
   e.preventDefault()
-  divX.innerText = e.changedTouches[0].pageX
-  divY.innerText = e.changedTouches[0].pageY
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
   touch.prev = { x: 0, y: 0 }
@@ -137,6 +130,4 @@ addEventListener('touchmove', e => {
 addEventListener('touchend', e => {
   e.preventDefault()
   mouse.move = { x: 0, y: 0 }
-  touch.now = { ...mouse.move }
-  touch.prev = { ...mouse.move }
 })
