@@ -60,7 +60,7 @@ const Particle = pos => {
   const particle = {}
 
   particle.pos = pos
-  particle.size = randBetween(2, 10)
+  particle.size = randBetween(2, 15)
   particle.color = randBetween(0, 360)
 
   particle.draw = () => {
@@ -123,7 +123,6 @@ const touch = {
   prev: { x: 0, y: 0 },
 }
 
-
 addEventListener('touchstart', e => {
   e.preventDefault()
   touch.now.x = e.changedTouches[0].pageX
@@ -140,4 +139,11 @@ addEventListener('touchmove', e => {
 })
 addEventListener('touchend', e => {
   e.preventDefault()
+})
+
+window.addEventListener('resize', e => {
+  canvas.width = window.innerWidth
+  canvas.style.width = window.innerWidth
+  canvas.height = window.innerHeight
+  canvas.style.height = window.innerHeight
 })
