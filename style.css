@@ -1,0 +1,14 @@
+@import url('./reset.css');
+
+*::before, *, *::after { box-sizing: border-box;}
+
+body {
+    background-color: rgb(3, 3, 3);
+    overflow: hidden;
+}
+
+canvas {
+    border: 3px solid #fff5;
+    width: 100vw;
+    height: 100vh;
+}
