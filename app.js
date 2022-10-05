@@ -101,9 +101,11 @@ const animate = () => {
 
 animate()
 
-addEventListener('mousemove', e => {
-    mouse.move.x = range(e.movementX, -10, 10)
-    mouse.move.y = range(e.movementY, -10, 10)
-}, {
-    
-})
+const mousemove = e => {
+  mouse.move.x = range(e.movementX, -10, 10)
+  mouse.move.y = range(e.movementY, -10, 10)
+}
+
+addEventListener('mousemove', mousemove)
+
+addEventListener('touchmove', mousemove)
