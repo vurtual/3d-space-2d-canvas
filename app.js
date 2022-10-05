@@ -113,15 +113,15 @@ const touch = {
 }
 addEventListener('touchstart', e => {
   e.preventDefault()
-  touch.now.x = e.touch[0].pageX
-  touch.now.y = e.touch[0].pageY
+  touch.now.x = e.changedTouches[0].pageX
+  touch.now.y = e.changedTouches[0].pageY
   touch.prev = { x: 0, y: 0 }
 })
 addEventListener('touchmove', e => {
   e.preventDefault()
   touch.prev = touch.now
-  touch.now.x = e.touch[0].pageX
-  touch.now.y = e.touch[0].pageY
+  touch.now.x = e.changedTouches[0].pageX
+  touch.now.y = e.changedTouches[0].pageY
   mouse.move.x = range(touch.now.x - touch.prev.x, -10, 10)
   mouse.move.y = range(touch.now.y - touch.prev.y, -10, 10)
 })
