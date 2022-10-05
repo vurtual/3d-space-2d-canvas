@@ -127,5 +127,4 @@ addEventListener('touchmove', e => {
 })
 addEventListener('touchend', e => {
   e.preventDefault()
-  mouse.move = { x: 0, y: 0 }
 })
