@@ -87,20 +87,18 @@ const createParticle = qty => {
     objects.push(Particle(random3DPosition()))
 }
 
-createParticle(70)
-
+createParticle(100)
 
 const animate = () => {
-    requestAnimationFrame(animate)
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    objects.forEach(object => object.update())
-    objects.forEach(object => object.draw())
-    mouse.move.x /= 1.0005
-    mouse.move.y /= 1.0005
+  requestAnimationFrame(animate)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  objects.forEach(object => object.update())
+  objects.forEach(object => object.draw())
+  mouse.move.x /= 1.0005
+  mouse.move.y /= 1.0005
 }
 
 animate()
-
 
 addEventListener('mousemove', e => {
   mouse.move.x = range(e.movementX, -10, 10)
@@ -115,21 +113,21 @@ const touch = {
 const divX = document.querySelector('.x')
 const divY = document.querySelector('.y')
 
-x.innerText('test')
-y.innerText('test')
+divX.innerText = 'test'
+divY.innerText = 'test'
 
 addEventListener('touchstart', e => {
   e.preventDefault()
-  x.innerText(e.changedTouches[0].pageX)
-  y.innerText(e.changedTouches[0].pageY)
+  divX.innerText = e.changedTouches[0].pageX
+  divY.innerText = e.changedTouches[0].pageY
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
   touch.prev = { x: 0, y: 0 }
 })
 addEventListener('touchmove', e => {
   e.preventDefault()
-  x.innerText(e.changedTouches[0].pageX)
-  y.innerText(e.changedTouches[0].pageY)
+  divX.innerText = e.changedTouches[0].pageX
+  divY.innerText = e.changedTouches[0].pageY
   touch.prev = { ...touch.now }
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
