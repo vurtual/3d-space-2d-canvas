@@ -111,15 +111,26 @@ const touch = {
   now: { x: 0, y: 0 },
   prev: { x: 0, y: 0 },
 }
+
+const divX = document.querySelector('.x')
+const divY = document.querySelector('.y')
+
+x.innerText('test')
+y.innerText('test')
+
 addEventListener('touchstart', e => {
   e.preventDefault()
+  x.innerText(e.changedTouches[0].pageX)
+  y.innerText(e.changedTouches[0].pageY)
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
   touch.prev = { x: 0, y: 0 }
 })
 addEventListener('touchmove', e => {
   e.preventDefault()
-  touch.prev = touch.now
+  x.innerText(e.changedTouches[0].pageX)
+  y.innerText(e.changedTouches[0].pageY)
+  touch.prev = { ...touch.now }
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
   mouse.move.x = range(touch.now.x - touch.prev.x, -10, 10)
