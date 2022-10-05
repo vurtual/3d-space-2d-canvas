@@ -119,8 +119,6 @@ addEventListener('touchstart', e => {
 })
 addEventListener('touchmove', e => {
   e.preventDefault()
-  divX.innerText = e.changedTouches[0].pageX
-  divY.innerText = e.changedTouches[0].pageY
   touch.prev = { ...touch.now }
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
