@@ -56,38 +56,51 @@ const display3DPosition = (pos, size) => {
     return {pos, size, bright, sat, lineWidth}
 }
 
-const Particle = (pos) => {
-    const particle = {}
+const Particle = pos => {
+  const particle = {}
 
-    particle.pos = pos
-    particle.size = randBetween(0.5, 7)
-    particle.color = randBetween(0, 360)
-    
-    particle.draw = () => {
-        const {pos, size, bright, sat, lineWidth} = display3DPosition(particle.pos, particle.size)
-        ctx.lineWidth = lineWidth
-        ctx.strokeStyle = `hsl(${particle.color}, ${sat}%, ${bright}%)`
-        ctx.fillStyle = '#000000'
-        ctx.beginPath()
-        ctx.arc(pos.x + canvas.width / 2, pos.y + canvas.height / 2, size, 0, 2*Math.PI)
-        ctx.stroke()
-        ctx.fill()
-    }
+  particle.pos = pos
+  particle.size = randBetween(2, 10)
+  particle.color = randBetween(0, 360)
 
-    particle.update = (deltaSpeed) => {
-       particle.pos = rotate3D(particle.pos, mouse.move.x / 500 , mouse.move.y / 500)
-       objects.sort((a, b) => b.pos.z - a.pos.z)
-    }
+  particle.draw = () => {
+    const { pos, size, bright, sat, lineWidth } = display3DPosition(
+      particle.pos,
+      particle.size
+    )
+    ctx.lineWidth = lineWidth
+    ctx.strokeStyle = `hsl(${particle.color}, ${sat}%, ${bright}%)`
+    ctx.fillStyle = '#000000'
+    ctx.beginPath()
+    ctx.arc(
+      pos.x + canvas.width / 2,
+      pos.y + canvas.height / 2,
+      size,
+      0,
+      2 * Math.PI
+    )
+    ctx.stroke()
+    ctx.fill()
+  }
 
-    return particle
+  particle.update = deltaSpeed => {
+    particle.pos = rotate3D(
+      particle.pos,
+      mouse.move.x / 500,
+      mouse.move.y / 500
+    )
+    objects.sort((a, b) => b.pos.z - a.pos.z)
+  }
+
+  return particle
 }
 
 const createParticle = qty => {
-    if(qty > 1) createParticle(--qty)
-    objects.push(Particle(random3DPosition()))
+  if (qty > 1) createParticle(--qty)
+  objects.push(Particle(random3DPosition()))
 }
 
-createParticle(100)
+createParticle(40)
 
 const animate = () => {
   requestAnimationFrame(animate)
