@@ -101,11 +101,33 @@ const animate = () => {
 
 animate()
 
-const mousemove = e => {
+
+addEventListener('mousemove', e => {
   mouse.move.x = range(e.movementX, -10, 10)
   mouse.move.y = range(e.movementY, -10, 10)
+})
+
+const touch = {
+  now: { x: 0, y: 0 },
+  prev: { x: 0, y: 0 },
 }
-
-addEventListener('mousemove', mousemove)
-
-addEventListener('touchmove', mousemove)
+addEventListener('touchstart', e => {
+  e.preventDefault()
+  touch.now.x = e.touch[0].pageX
+  touch.now.y = e.touch[0].pageY
+  touch.prev = { x: 0, y: 0 }
+})
+addEventListener('touchmove', e => {
+  e.preventDefault()
+  touch.prev = touch.now
+  touch.now.x = e.touch[0].pageX
+  touch.now.y = e.touch[0].pageY
+  mouse.move.x = range(touch.now.x - touch.prev.x, -10, 10)
+  mouse.move.y = range(touch.now.y - touch.prev.y, -10, 10)
+})
+addEventListener('touchend', e => {
+  e.preventDefault()
+  mouse.move = { x: 0, y: 0 }
+  touch.now = { ...mouse.move }
+  touch.prev = { ...mouse.move }
+})
