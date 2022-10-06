@@ -86,8 +86,8 @@ const Particle = pos => {
   particle.update = deltaSpeed => {
     particle.pos = rotate3D(
       particle.pos,
-      mouse.move.x / 500,
-      mouse.move.y / 500
+      (particle.size * mouse.move.x) / 3500,
+      (particle.size * mouse.move.y) / 3500
     )
     objects.sort((a, b) => b.pos.z - a.pos.z)
   }
@@ -114,8 +114,8 @@ const animate = () => {
 animate()
 
 addEventListener('mousemove', e => {
-  mouse.move.x = range(e.movementX, -10, 10)
-  mouse.move.y = range(e.movementY, -10, 10)
+  mouse.move.x = range(e.movementX, -2.5, 2.5)
+  mouse.move.y = range(e.movementY, -2.5, 2.5)
 })
 
 const touch = {
@@ -134,8 +134,8 @@ addEventListener('touchmove', e => {
   touch.prev = { ...touch.now }
   touch.now.x = e.changedTouches[0].pageX
   touch.now.y = e.changedTouches[0].pageY
-  mouse.move.x = range(touch.now.x - touch.prev.x, -10, 10)
-  mouse.move.y = range(touch.now.y - touch.prev.y, -10, 10)
+  mouse.move.x = range(touch.now.x - touch.prev.x, -2.5, 2.5)
+  mouse.move.y = range(touch.now.y - touch.prev.y, -2.5, 2.5)
 })
 addEventListener('touchend', e => {
   e.preventDefault()
