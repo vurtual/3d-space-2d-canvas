@@ -71,7 +71,7 @@ const Particle = pos => {
 
   particle.pos = pos
   particle.size = randBetween(2, 15)
-  particle.speed = particle.size * distance3D(center, particle.pos)
+  particle.speed = Math.sqrt(particle.size) * distance3D(center, particle.pos)
   particle.color = randBetween(0, 360)
 
   particle.draw = () => {
@@ -97,8 +97,8 @@ const Particle = pos => {
   particle.update = deltaSpeed => {
     particle.pos = rotate3D(
       particle.pos,
-      (particle.speed * mouse.move.x) / 1500000,
-      (particle.speed * mouse.move.y) / 1500000
+      (particle.speed * mouse.move.x) / 800000,
+      (particle.speed * mouse.move.y) / 800000
     )
     objects.sort((a, b) => b.pos.z - a.pos.z)
   }
