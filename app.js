@@ -10,57 +10,68 @@ const randBetween = (min, max) => {
 }
 const mouse = { move: { x: randBetween(-2.5, 2.5), y: randBetween(-2.5, 2.5) } }
 
+const center = { x: 0, y: 0, z: canvas.height / 2 }
+
 const mapValue = (n, min1, max1, min2, max2) => {
-    const range1 = max1 - min1
-    const range2 = max2 - min2
-    const rangeRatio = range2 / range1
-    const nPlaceInRange1 = n - min1
-    const nRatio = nPlaceInRange1 / range1
-    const nPlaceInRange2 = nRatio * range2
-    return min2 + nPlaceInRange2
+  const range1 = max1 - min1
+  const range2 = max2 - min2
+  const rangeRatio = range2 / range1
+  const nPlaceInRange1 = n - min1
+  const nRatio = nPlaceInRange1 / range1
+  const nPlaceInRange2 = nRatio * range2
+  return min2 + nPlaceInRange2
 }
 const range = (n, min, max) => Math.min(Math.max(n, min), max)
 
 const random3DPosition = () => {
-    return {
-        x: randBetween(-canvas.width / 2, canvas.width / 2),
-        y: randBetween(-canvas.height / 2, canvas.height / 2),
-        z: randBetween(0, canvas.height)
-    }
+  return {
+    x: randBetween(-canvas.width / 2, canvas.width / 2),
+    y: randBetween(-canvas.height / 2, canvas.height / 2),
+    z: randBetween(0, canvas.height),
+  }
 }
 
 const rotate3DX = (pos, x) => {
-    const newX = pos.x * Math.cos(x) - pos.z * Math.sin(x)// + canvas.height / 180
-    const newZ = pos.x * Math.sin(x) + pos.z * Math.cos(x)// - canvas.height / 180
-    return {x: newX, y: pos.y, z: newZ}
+  const newX = pos.x * Math.cos(x) - pos.z * Math.sin(x) // + canvas.height / 180
+  const newZ = pos.x * Math.sin(x) + pos.z * Math.cos(x) // - canvas.height / 180
+  return { x: newX, y: pos.y, z: newZ }
 }
 
 const rotate3DY = (pos, y) => {
-    const newY = pos.y * Math.cos(y) - pos.z * Math.sin(y)// + canvas.height / 180
-    const newZ = pos.y * Math.sin(y) + pos.z * Math.cos(y)// - canvas.height / 180
-    return {x: pos.x, y: newY, z: newZ}
+  const newY = pos.y * Math.cos(y) - pos.z * Math.sin(y) // + canvas.height / 180
+  const newZ = pos.y * Math.sin(y) + pos.z * Math.cos(y) // - canvas.height / 180
+  return { x: pos.x, y: newY, z: newZ }
 }
 
 const rotate3D = (pos, x, y) => {
-    pos = rotate3DX(pos, x)
-    return rotate3DY(pos, y)
+  pos = rotate3DX(pos, x)
+  return rotate3DY(pos, y)
 }
 
 const display3DPosition = (pos, size) => {
-    const x = mapValue(pos.x, 0, canvas.width, pos.z, canvas.height - pos.z )
-    const y = mapValue(pos.y, 0, canvas.height, pos.z, canvas.height -  pos.z )
-    size = pos.z === 0 ? size : size / (mapValue(pos.z, 0, canvas.height / 3, 1, 1.2)  ** 2)
-    const bright = mapValue(pos.z, 0, canvas.height / 3, 55, 45)
-    const sat = mapValue(pos.z, 0, canvas.height / 3, 70, 30)
-    const lineWidth = mapValue(pos.z, 0, canvas.height / 3, 2, 0.3)
-    return {pos, size, bright, sat, lineWidth}
+  const x = mapValue(pos.x, 0, canvas.width, pos.z, canvas.height - pos.z)
+  const y = mapValue(pos.y, 0, canvas.height, pos.z, canvas.height - pos.z)
+  size =
+    pos.z === 0
+      ? size
+      : size / mapValue(pos.z, 0, canvas.height / 3, 1, 1.2) ** 2
+  const bright = mapValue(pos.z, 0, canvas.height / 3, 55, 45)
+  const sat = mapValue(pos.z, 0, canvas.height / 3, 70, 30)
+  const lineWidth = mapValue(pos.z, 0, canvas.height / 3, 2, 0.3)
+  return { pos, size, bright, sat, lineWidth }
 }
+
+const distance3DComparison = (pos1, pos2) =>
+  (pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2 + (pos1.z - pos2.z) ** 2
+
+const distance3D = (pos1, pos2) => Math.sqrt(distance3DComparison(pos1, pos2))
 
 const Particle = pos => {
   const particle = {}
 
   particle.pos = pos
   particle.size = randBetween(2, 15)
+  particle.speed = particle.size * distance3D(center, particle.pos)
   particle.color = randBetween(0, 360)
 
   particle.draw = () => {
@@ -86,8 +97,8 @@ const Particle = pos => {
   particle.update = deltaSpeed => {
     particle.pos = rotate3D(
       particle.pos,
-      (particle.size * mouse.move.x) / 3500,
-      (particle.size * mouse.move.y) / 3500
+      (particle.speed * mouse.move.x) / 1500000,
+      (particle.speed * mouse.move.y) / 1500000
     )
     objects.sort((a, b) => b.pos.z - a.pos.z)
   }
