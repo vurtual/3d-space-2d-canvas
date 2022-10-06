@@ -4,11 +4,11 @@ canvas.height = window.innerHeight
 const ctx = canvas.getContext('2d')
 const objects = []
 
-const mouse = {move: {x: 0, y: 0}}
 
 const randBetween = (min, max) => {
-    return Math.random() * (max - min) + min
+  return Math.random() * (max - min) + min
 }
+const mouse = { move: { x: randBetween(-2.5, 2.5), y: randBetween(-2.5, 2.5) } }
 
 const mapValue = (n, min1, max1, min2, max2) => {
     const range1 = max1 - min1
